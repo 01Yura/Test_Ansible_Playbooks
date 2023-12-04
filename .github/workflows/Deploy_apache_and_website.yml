@@ -17,7 +17,7 @@ jobs:
       #    run: ls -l
 
       - name: Git clone my repo
-        #   uses: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           files: ansible.cfg
 
