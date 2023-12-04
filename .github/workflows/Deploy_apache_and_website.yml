@@ -7,19 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #  - name: Git clone my repo
-      #    uses: actions/checkout@v4
-
-      #  - name: Copy files
-      #    run: cp -r Deploying_apache_and_website/* .
-
-      #  - name: List
-      #    run: ls -l
-
       - name: Git clone my repo
-        uses: actions/checkout@main
-        with:
-          files: Deploying_apache_and_website/ansible.cfg
+        uses: actions/checkout@v4
+
+      - name: Copy files
+        run: cp -r Deploying_apache_and_website/* .
 
       - name: List
         run: ls -l
