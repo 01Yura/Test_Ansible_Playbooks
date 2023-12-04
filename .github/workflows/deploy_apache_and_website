@@ -1,0 +1,14 @@
+name: deploy_website
+on:
+  push:
+    branches: main
+jobs:
+  my_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git clone my repo
+        uses: actions/checkout@main
+
+      - name: Deploy
+        run: ansible-playbook -e "ansible_password=${{secrets.MY_PASS}}" -e "ansible_user=${{secrets.MY_USER}}" playbook_roles_test.yml # конструкция -e "ansible_password=${{secrets.MY_PASS}}" -e "ansible_user=${{secrets.MY_USER}}" говорит что нужно взять значение переменных MY_PASS и MY_USER из вкладки Settings/secrets and variables/actions именно данного репозитория в котором выполняется данный workflow, и подставить его в качестве пароля и имени пользователя для хоста, к которому подключаемся. Сделано это чтобы пароль и пользователь не были видны всем, так как репозиторий является публичным.
