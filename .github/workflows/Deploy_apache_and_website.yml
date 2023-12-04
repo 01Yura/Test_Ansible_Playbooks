@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v4 
 
       - name: Change directory
-        run: cd Deploying_apache_and_website
+        run: cd /home/runner/work/Test_Ansible_Playbooks/Test_Ansible_Playbooks/Deploying_apache_and_website
 
       - name: PWD
         run: pwd 
