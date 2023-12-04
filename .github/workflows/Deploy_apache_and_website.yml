@@ -10,6 +10,9 @@ jobs:
       - name: Git clone my repo
         uses: actions/checkout@v4
 
+      - name: List
+        run: ls -l 
+
       - name: Change directory
         run: cd Deploying_apache_and_website
 
