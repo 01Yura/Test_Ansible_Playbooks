@@ -1,0 +1,7 @@
+---
+- name: Install Apache Web Server
+  hosts: my_server
+  become: yes
+
+  roles:
+    - deployment_apache_and_website_on_ubuntu_or_RedHat

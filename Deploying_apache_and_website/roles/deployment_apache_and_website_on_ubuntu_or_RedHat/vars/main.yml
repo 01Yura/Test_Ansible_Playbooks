@@ -1,0 +1,5 @@
+---
+# vars file for deployment_apache_and_website_on_ubuntu_or_RedHat
+
+dest_folder1: /var/www/html/My_web_site-main
+dest_folder2: /etc/apache2/sites-available

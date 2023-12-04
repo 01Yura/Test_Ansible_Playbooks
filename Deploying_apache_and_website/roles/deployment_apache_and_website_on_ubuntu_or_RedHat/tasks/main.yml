@@ -1,0 +1,47 @@
+---
+# tasks file for deployment_apache_and_website_on_ubuntu_or_RedHat
+
+    - block: #====== Block for Debian======
+        - name: Updating repos for Ubuntu
+          apt:
+            update_cache: yes
+
+        - name: Install Apache for Ubuntu
+          apt:
+            name: apache2
+            state: latest
+
+        - name: Start Apache and enable autoboot (Ubuntu)
+          service:
+            name: apache2
+            state: started
+            enabled: yes
+
+      when: ansible_os_family=="Debian"
+      
+    - name: Creating directory /var/www/html/My_web_site-main
+      file:
+        path: /var/www/html/My_web_site-main
+        state: directory
+        
+    - name: Copying website to /var/www/html/My_web_site-main
+      ansible.builtin.copy: 
+        src: "{{ item }}"
+        dest: "{{ dest_folder1 }}"
+      loop:
+        - index.html
+        - ip.php
+    
+    - name: Copying config files to /etc/apache2/sites-available
+      ansible.builtin.copy: 
+        src: "{{ item }}"
+        dest: "{{ dest_folder2 }}"
+      loop:
+        - my_web_site.conf
+        - my_web_site-ssl.conf
+      notify:
+        - Executing a2ensite 1
+        - Executing a2ensite 2
+        - Executing a2dissite
+        - Restart Apache Centos
+        - Restart Apache Debian

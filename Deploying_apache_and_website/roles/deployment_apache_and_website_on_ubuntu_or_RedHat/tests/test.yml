@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - deployment_apache_and_website_on_ubuntu_or_RedHat

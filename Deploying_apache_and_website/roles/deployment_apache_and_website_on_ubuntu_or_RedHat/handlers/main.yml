@@ -1,0 +1,23 @@
+---
+# handlers file for deployment_apache_and_website_on_ubuntu_or_RedHat
+
+    - name: Executing a2ensite 1
+      shell: a2ensite my_web_site.conf
+
+    - name: Executing a2ensite 2
+      shell: a2ensite my_web_site-ssl.conf  
+
+    - name: Executing a2dissite
+      shell: a2dissite 000-default.conf
+
+    - name: Restart Apache Centos
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_os_family=="RedHat"
+
+    - name: Restart Apache Debian
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_os_family=="Debian"
