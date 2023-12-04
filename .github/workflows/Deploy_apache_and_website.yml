@@ -17,9 +17,9 @@ jobs:
       #    run: ls -l
 
       - name: Git clone my repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
-          files: ansible.cfg
+          files: Deploying_apache_and_website/ansible.cfg
 
       - name: List
         run: ls -l
