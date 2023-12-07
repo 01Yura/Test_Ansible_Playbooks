@@ -16,6 +16,13 @@
     state: restarted
   when: ansible_os_family=="Debian"
 
+- name: Add string
+  lineinfile: 
+    state: present
+    insertafter: EOF
+    dest: /etc/httpd/conf/httpd.conf
+    line: "IncludeOptional sites-enabled/*.conf"
+
 - name: Creating simlink1
   file:
     src: "/etc/httpd/sites-available/my_web_site.conf"
