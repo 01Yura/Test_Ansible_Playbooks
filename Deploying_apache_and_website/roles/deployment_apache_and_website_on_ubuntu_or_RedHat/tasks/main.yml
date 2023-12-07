@@ -54,7 +54,7 @@
       notify:
         - Creating simlink1
         - Creating simlink1
-        - Restart Apache Centos
+        - Restart Apache RedHat
 
   when: ansible_os_family=="RedHat"
 
