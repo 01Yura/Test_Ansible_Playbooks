@@ -63,6 +63,25 @@
         - Creating simlink2
         - Restart Apache RedHat
 
+    #    - name: Ensure SELinux is set to enforcing mode
+    #      ansible.builtin.lineinfile:
+    #        path: /etc/selinux/config
+    #        regexp: '^SELINUX='
+    #        line: SELINUX=enforcing
+
+    - name: Change strings into my_web_site.conf
+      lineinfile:
+        line: "{{ item.line }}"
+        regexp: "{{ item.regexp }}"
+        path: /etc/ssh/sshd_config
+      loop:
+        - line: /var/log/error.log
+          regexp: ErrorLog ${APACHE_LOG_DIR}/error.log
+        - line: /var/log/access.log combined
+          regexp: CustomLog ${APACHE_LOG_DIR}/access.log combined
+      notify: 
+        - Restart Apache RedHat
+        
   when: ansible_os_family=="RedHat"
 
 - block: #====== Block for Debian======
