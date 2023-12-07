@@ -32,7 +32,8 @@
 
     - name: Open port 80 and restart firewall
       shell: firewall-cmd --permanent --add-service=http && firewall-cmd --reload
-
+      ignore_errors: yes
+      
     - name: Creating directory /etc/httpd/sites-available
       file:
         path: /etc/httpd/sites-available
