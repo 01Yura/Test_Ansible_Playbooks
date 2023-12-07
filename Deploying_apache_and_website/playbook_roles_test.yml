@@ -1,6 +1,6 @@
 ---
 - name: Install Apache Web Server
-  hosts: my_server
+  hosts: [servers]
   become: yes
 
   roles:
