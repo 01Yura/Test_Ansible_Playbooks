@@ -17,12 +17,18 @@
   when: ansible_os_family=="Debian"
 
 - name: Creating simlink1
-  shell: ln -s /etc/httpd/sites-available/my_web_site.conf /etc/httpd/sites-enabled/my_web_site.conf
+  file:
+    src: "/etc/httpd/sites-available/my_web_site.conf"
+    dest: "/etc/httpd/sites-enabled/my_web_site.conf"
+    state: link
 
-- name: Creating simlink2
-  shell: ln -s /etc/httpd/sites-available/my_web_site-ssl.conf /etc/httpd/sites-enabled/my_web_site-ssl.conf
+- name: Creating simlink1
+  file:
+    src: "/etc/httpd/sites-available/my_web_site-ssl.conf"
+    dest: "/etc/httpd/sites-enabled/my_web_site-ssl.conf"
+    state: link
 
-- name: Restart Apache Centos
+- name: Restart Apache RedHat
   service:
     name: httpd
     state: restarted

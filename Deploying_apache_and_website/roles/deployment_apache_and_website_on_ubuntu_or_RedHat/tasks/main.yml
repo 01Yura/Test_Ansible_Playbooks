@@ -15,7 +15,7 @@
     - ip.php
 
 - block: #====== Block for RedHat ======
-    - name: Updating repos for CentOS
+    - name: Updating repos for RedHat
       yum:
         update_cache: yes
 
@@ -24,16 +24,16 @@
         name: httpd
         state: latest
 
-    - name: Start Apache and enable autoboot (RedHat)
+    - name: Start Apache and enable autoboot for RedHat
       service:
         name: httpd
         state: started
         enabled: yes
 
     - name: Open port 80 and restart firewall
-      shell: firewall-cmd --permanent --add-service=http && firewall-cmd --reload
+      shell: firewall-cmd --permanent --add-service=http && sudo firewall-cmd --permanent --add-service=https && firewall-cmd --reload
       ignore_errors: yes
-      
+
     - name: Creating directory /etc/httpd/sites-available
       file:
         path: /etc/httpd/sites-available
