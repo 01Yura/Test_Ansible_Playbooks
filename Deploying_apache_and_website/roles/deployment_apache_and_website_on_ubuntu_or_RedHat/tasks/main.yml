@@ -53,7 +53,7 @@
         - my_web_site-ssl.conf
       notify:
         - Creating simlink1
-        - Creating simlink1
+        - Creating simlink2
         - Restart Apache RedHat
 
   when: ansible_os_family=="RedHat"
