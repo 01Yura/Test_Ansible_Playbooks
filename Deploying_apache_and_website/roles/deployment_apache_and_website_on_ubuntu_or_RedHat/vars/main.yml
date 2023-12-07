@@ -3,3 +3,5 @@
 
 dest_folder1: /var/www/html/My_web_site-main
 dest_folder2: /etc/apache2/sites-available
+dest_folder3: /etc/httpd/sites-available
+dest_folder4: /etc/httpd/sites-enabled

@@ -1,39 +1,80 @@
 ---
 # tasks file for deployment_apache_and_website_on_ubuntu_or_RedHat
 
-    - block: #====== Block for Debian======
-        - name: Updating repos for Ubuntu
-          apt:
-            update_cache: yes
+- name: Creating directory /var/www/html/My_web_site-main
+  file:
+    path: /var/www/html/My_web_site-main
+    state: directory
 
-        - name: Install Apache for Ubuntu
-          apt:
-            name: apache2
-            state: latest
+- name: Copying website to /var/www/html/My_web_site-main
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ dest_folder1 }}"
+  loop:
+    - index.html
+    - ip.php
 
-        - name: Start Apache and enable autoboot (Ubuntu)
-          service:
-            name: apache2
-            state: started
-            enabled: yes
+- block: #====== Block for RedHat ======
+    - name: Updating repos for CentOS
+      yum:
+        update_cache: yes
 
-      when: ansible_os_family=="Debian"
-      
-    - name: Creating directory /var/www/html/My_web_site-main
+    - name: Install Apache for RedHat
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Start Apache and enable autoboot (RedHat)
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Open port 80 and restart firewall
+      shell: firewall-cmd --permanent --add-service=http && firewall-cmd --reload
+
+    - name: Creating directory /etc/httpd/sites-available
       file:
-        path: /var/www/html/My_web_site-main
+        path: /etc/httpd/sites-available
         state: directory
-        
-    - name: Copying website to /var/www/html/My_web_site-main
-      ansible.builtin.copy: 
+
+    - name: Creating directory /etc/httpd/sites-enabled
+      file:
+        path: /etc/httpd/sites-enabled
+        state: directory
+
+    - name: Copying config files to /etc/httpd/sites-available
+      ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "{{ dest_folder1 }}"
+        dest: "{{ dest_folder3 }}"
       loop:
-        - index.html
-        - ip.php
-    
+        - my_web_site.conf
+        - my_web_site-ssl.conf
+      notify:
+        - Creating simlink1
+        - Creating simlink1
+        - Restart Apache Centos
+
+  when: ansible_os_family=="RedHat"
+
+- block: #====== Block for Debian======
+    - name: Updating repos for Ubuntu
+      apt:
+        update_cache: yes
+
+    - name: Install Apache for Ubuntu
+      apt:
+        name: apache2
+        state: latest
+
+    - name: Start Apache and enable autoboot (Ubuntu)
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
     - name: Copying config files to /etc/apache2/sites-available
-      ansible.builtin.copy: 
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ dest_folder2 }}"
       loop:
@@ -43,5 +84,19 @@
         - Executing a2ensite 1
         - Executing a2ensite 2
         - Executing a2dissite
-        - Restart Apache Centos
         - Restart Apache Debian
+
+  when: ansible_os_family=="Debian"
+
+- name: Creating directory /var/www/html/My_web_site-main
+  file:
+    path: /var/www/html/My_web_site-main
+    state: directory
+
+- name: Copying website to /var/www/html/My_web_site-main
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ dest_folder1 }}"
+  loop:
+    - index.html
+    - ip.php
