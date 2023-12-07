@@ -22,7 +22,7 @@
     dest: "/etc/httpd/sites-enabled/my_web_site.conf"
     state: link
 
-- name: Creating simlink1
+- name: Creating simlink2
   file:
     src: "/etc/httpd/sites-available/my_web_site-ssl.conf"
     dest: "/etc/httpd/sites-enabled/my_web_site-ssl.conf"
